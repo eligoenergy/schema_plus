@@ -192,6 +192,10 @@ Or you can pass an array of possible column values:
 
     t.string :type, check: ["Type1", "Type2", "Type3"]
 
+Additionally, check constraints can be specified outside of table definition:
+
+    add_column_check_constraint :table, :column, ["value1", "value2"]
+
 
 ### Tables
 
