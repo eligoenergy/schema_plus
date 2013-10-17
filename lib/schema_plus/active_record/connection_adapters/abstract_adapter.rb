@@ -59,15 +59,8 @@ module SchemaPlus
         # Check can be an array of possible values or SQL expression
         # Note, MySQL does not implement check constraints, but it will accept SQL containing them
         def add_column_check_constraint(table_name, column_name, check)
-          check_expression = if check.is_a? Array
-            "#{quote_column_name(column_name)} in (#{check.map { |c| quote(c) }.join(", ")})"
-          elsif check.is_a? String
-            check
-          else
-            raise "Invalid column '#{column_name}' check constraint in table '#{table_name}'."
-          end
-
-          execute "ALTER TABLE #{quote_table_name(table_name)} ADD CONSTRAINT check_constraint_#{table_name}_#{column_name} check (#{check_expression})"
+          constraint = CheckConstraintDefinition.new(table_name, column_name, check)
+          execute "ALTER TABLE #{quote_table_name(table_name)} ADD CONSTRAINT check_constraint_#{table_name}_#{column_name} #{constraint.to_sql}"
         end
 
 

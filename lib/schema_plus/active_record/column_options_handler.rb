@@ -21,7 +21,7 @@ module SchemaPlus::ActiveRecord
 
       # create check constraint on the field if requested explicitly
       check = column_options[:check]
-      add_column_check_constraint(table_name, column_name, check) if check
+      column_check_constraint(table_name, column_name, check) if check
 
       if fk_args
         references = fk_args.delete(:references)
@@ -95,6 +95,11 @@ module SchemaPlus::ActiveRecord
 
     def auto_index_name(table_name, column_name)
       ConnectionAdapters::ForeignKeyDefinition.auto_index_name(table_name, column_name)
+    end
+
+    def column_check_constraint(table_name, column_name, check)
+      constraint = ConnectionAdapters::CheckConstraintDefinition.new(table_name, column_name, check)
+      constraint.to_sql
     end
 
   end

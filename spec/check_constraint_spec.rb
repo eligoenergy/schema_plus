@@ -9,6 +9,7 @@ describe "Check constraints" do
         t.string :post_type
         t.string :post_type2
         t.string :post_type3
+        t.string :post_type4, check: ["a", "b", "c"]
       end
     end
     class Post < ::ActiveRecord::Base ; end
@@ -16,6 +17,11 @@ describe "Check constraints" do
 
   def call_add_column_check_constraint(*params)
     ActiveRecord::Base.connection.add_column_check_constraint(*params)
+  end
+
+  it "should create table with check constraint in definition" do
+    post = Post.create!(body: "body", post_type4: "a")
+    post.post_type4.should == "a"
   end
 
   if SchemaPlusHelpers.mysql?

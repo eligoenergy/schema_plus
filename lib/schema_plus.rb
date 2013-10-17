@@ -12,6 +12,7 @@ require 'schema_plus/active_record/schema_dumper'
 require 'schema_plus/active_record/connection_adapters/abstract_adapter'
 require 'schema_plus/active_record/connection_adapters/column'
 require 'schema_plus/active_record/connection_adapters/foreign_key_definition'
+require 'schema_plus/active_record/connection_adapters/check_constraint_definition'
 require 'schema_plus/active_record/connection_adapters/index_definition'
 require 'schema_plus/railtie' if defined?(Rails::Railtie)
 
